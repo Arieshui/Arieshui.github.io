@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Go,笔记," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="程序结构本章讨论Go程序中的基本结构元素。 1.1、名称GO中函数、变量、常量、类型、语句标签和包的名称遵循一个简单的规则： 名称的开头是一个字母或下划线，后面可以跟任意数量的字符、数字和下划线，并区分大小写。如helloworld和Helloworld是不同的名称。 Go中有25个关键字，只能用在语法允许的地方，他们不能作为名称：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第一章程序结构">
+<meta property="og:url" content="http://yoursite.com/2020/01/13/skdfs/index.html">
+<meta property="og:site_name" content="Aries Hui&#39;s Blog">
+<meta property="og:description" content="程序结构本章讨论Go程序中的基本结构元素。 1.1、名称GO中函数、变量、常量、类型、语句标签和包的名称遵循一个简单的规则： 名称的开头是一个字母或下划线，后面可以跟任意数量的字符、数字和下划线，并区分大小写。如helloworld和Helloworld是不同的名称。 Go中有25个关键字，只能用在语法允许的地方，他们不能作为名称：">
+<meta property="article:published_time" content="2020-01-13T12:46:25.000Z">
+<meta property="article:modified_time" content="2020-01-18T07:13:43.110Z">
+<meta property="article:author" content="Aries Hui">
+<meta property="article:tag" content="Go">
+<meta property="article:tag" content="笔记">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/01/13/skdfs/"/>
+
+
+
+
+
+  <title>第一章程序结构 | Aries Hui's Blog</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Aries Hui's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">笔记</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-question-circle"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/01/13/skdfs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Aries Hui">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Aries Hui's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">第一章程序结构</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-13T20:46:25+08:00">
+                2020-01-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Diary/" itemprop="url" rel="index">
+                    <span itemprop="name">Diary</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="程序结构"><a href="#程序结构" class="headerlink" title="程序结构"></a>程序结构</h1><p>本章讨论Go程序中的基本结构元素。</p>
+<h2 id="1-1、名称"><a href="#1-1、名称" class="headerlink" title="1.1、名称"></a>1.1、名称</h2><p>GO中函数、变量、常量、类型、语句标签和包的名称遵循一个简单的规则：</p>
+<p>名称的开头是一个字母或下划线，后面可以跟任意数量的字符、数字和下划线，并区分大小写。如<code>helloworld</code>和<code>Helloworld</code>是不同的名称。</p>
+<p>Go中有25个关键字，只能用在语法允许的地方，他们不能作为名称：</p>
+<a id="more"></a>
+
+<p><code>break         default         func         interface         select
+case         defer             go             map             struct
+chan         else             goto         package         switch
+const         fallthrough     if             range             type
+continue     for             import         return             var</code></p>
+<p>另外还有三十几个内置的预声明的常量、类型和函数：</p>
+<p>常量：<code>true    false    iota    nil</code></p>
+<p>类型：<code>int            int8        int16        int32        int64
+      uinit         uint8        uint16        uint32        uint64        uintptr
+      float32        float64        complex128    complex64
+      bool            byte        rune        string        error</code></p>
+<p>函数：<code>make            len            cap            new            append        imag
+      copy             close        delete        complex        real        panic
+      recover</code></p>
+<p>变量声明：如果一变量是在函数中声明，他只在函数局部有效。如果声明在函数外，它将对包里面的所有源文件可见；</p>
+<p>实体声明首字母大小写：实体声明首字母大小写决定其可见性是否跨包。如果名称以大写字母开头，他是可导出的，意味着它对包外的可见性和可访问性，可以被自己包之外的其他程序所引用，像<code>fmt</code>包中的<code>Printf</code>，若为<code>printf</code>，则我们的程序中无法使用<code>fmt.printf</code>来调用。</p>
+<p>Go命名风格：<br>长度：Go的编程风格倾向于使用短名称，特别是作用域较小的局部变量，更喜欢看到一个变量是i或j。通常，名称的作用域越大，就使用越长且更有意义的名称。</p>
+<p>风格：Go中更喜欢用“驼峰式”的风格。如：<code>helloWorld</code>和<code>parseRequestLine</code>的形式</p>
+<h2 id="1-2、声明"><a href="#1-2、声明" class="headerlink" title="1.2、声明"></a>1.2、声明</h2><p>有以下四种需要声明的：变量（var）、常量（const）、类型（type）、和函数（func）。目前讨论变量和类型，常量放在第三章，函数放在第五章。</p>
+<p>Go程序存储在一个或多个以.go为后缀的文件中，每个文件以package声明开头，表明文件属于哪个包，后面是import声明，然后是变量，常量，函数声明，这些不区分顺序。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 计算半径为r的圆的面积，输出s</span></span><br><span class="line"><span class="keyword">package</span> main	<span class="comment">//package 声明</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">"fmt"</span>	<span class="comment">//import 声明</span></span><br><span class="line"><span class="keyword">const</span> pi = <span class="number">3.14</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> r <span class="keyword">float32</span> = <span class="number">10</span></span><br><span class="line">	<span class="keyword">var</span> s <span class="keyword">float32</span> = pi * r * r</span><br><span class="line">	fmt.Printf(<span class="string">"半径为%v的圆的面积为%v\n"</span>, r, s)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上程序中，const声明pi为常量，作用域为包级别的声明（main包），var声明s,r为变量，并且作用域为main函数的局部变量。</p>
+<h2 id="1-3、变量"><a href="#1-3、变量" class="headerlink" title="1.3、变量"></a>1.3、变量</h2><p>声明变量的通用形式：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name <span class="keyword">type</span> = expression</span><br></pre></td></tr></table></figure>
+
+<p>其中type和expression部分可以省略其中一个，但不能都省略。<br>若果type省略，它的类型将由初始化expression决定；<br>如果expression省略，其初始值对应于类型的零值–数字是0，bool值是false，对于字符串为“ ”，对于接口和引用类型（slice、指针、map、通道、函数）是nil。对于数组或结构体复合类型，零值是所有元素或成员的零值。</p>
+<p>零值机制保障所有的变量是良好的定义，以便变量一开始就处于可用状态。</p>
+<p>可以声明一个变量列表，例如：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> i,j,k <span class="keyword">int</span>		<span class="comment">//int,int,int 初始值为0</span></span><br><span class="line"><span class="keyword">var</span> b,f,s=<span class="literal">true</span>,<span class="number">2.4</span>,<span class="string">"six"</span>	<span class="comment">//b:bool,f:float64,s:string</span></span><br></pre></td></tr></table></figure>
+
+<p>变量也可以通过调用返回多个值的函数进行初始化：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> x,err=os.Stat(<span class="string">"sss"</span>)<span class="comment">//函数返回一个fileinfo接口和error</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-1、短变量声明"><a href="#1-3-1、短变量声明" class="headerlink" title="1.3.1、短变量声明"></a>1.3.1、短变量声明</h3><p>可以使用 <code>name：=expression</code>的形式</p>
+<p>多个变量使用短变量的方式声明和初始化：<code>i，j=3，5</code></p>
+<h3 id="1-3-2、指针"><a href="#1-3-2、指针" class="headerlink" title="1.3.2、指针"></a>1.3.2、指针</h3><p>变量是存储值的地方，指针的值是一个变量的地址。使用指针可以无需知道变量名字的情况下间接读取或更新变量的值，例如以下代码演示了利用指针修改原变量的值。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	x := <span class="number">1</span>	<span class="comment">//</span></span><br><span class="line">	p := &amp;x	<span class="comment">//定义一个整形指针p，保存了变量x的地址</span></span><br><span class="line">	fmt.Println(*p)	<span class="comment">//*p为获取变量的值，即x，输出1</span></span><br><span class="line">  *p = <span class="number">2</span></span><br><span class="line">  fmt.Println(x) <span class="comment">//输出结果为2</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>指针类型的零值是nil，可通过以下代码验证：</p>
+<p>p是一个int类型的指针，p==nil输出了true，说明指针类型的零值是nil。指针是可比较的，两个指针当且仅当指向同一个变量或者两者都是nil的情况下才相等。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> x ,y <span class="keyword">int</span></span><br><span class="line">	<span class="keyword">var</span> p *<span class="keyword">int</span></span><br><span class="line">	fmt.Println(&amp;x==&amp;x,&amp;x==&amp;y,&amp;x==<span class="literal">nil</span>,p==<span class="literal">nil</span>) <span class="comment">//true false false true</span></span><br><span class="line">	fmt.Printf(<span class="string">"%#v\n"</span>,p)	<span class="comment">//(*int)(nil)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>函数返回局部变量的地址是非常安全的。例如下面的代码中，通过调用f产生的局部变量v即使在调用返回后依然存在，指针p依然引用它：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">f</span><span class="params">()</span> *<span class="title">int</span></span> &#123;</span><br><span class="line">	v := <span class="number">3</span></span><br><span class="line">	<span class="keyword">return</span> &amp;v</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	fmt.Println(f() == f()) <span class="comment">//返回false，调用了两次f函数，每次调用都会返回不同的值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>下面代码演示了函数递增一个指针参数所指向的变量，然后返回此变量的新值，于是它可以在表达式中使用：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">f</span><span class="params">(p *<span class="keyword">int</span>)</span> <span class="title">int</span></span> &#123;</span><br><span class="line">	*p++	<span class="comment">//递增p所指向的值；p自身保持不变</span></span><br><span class="line">	<span class="keyword">return</span> *p</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> x = <span class="number">3</span></span><br><span class="line">  f(&amp;x)	<span class="comment">//副作用：x=4</span></span><br><span class="line">	fmt.Println(f(&amp;x))	<span class="comment">//输出5（x现在是5）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-3、new函数"><a href="#1-3-3、new函数" class="headerlink" title="1.3.3、new函数"></a>1.3.3、new函数</h3><p>另外一种创建变量的方式是使用new函数。表达式<code>new(T)</code>，创建一个未命名的T类型的变量，初始化为T类型的灵芝，并返回其地址（地址类型为*T）</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">p:=<span class="built_in">new</span>(<span class="keyword">int</span>)		<span class="comment">//*int类型的p，指向未命名的int变量</span></span><br><span class="line">fmt.Println(p)	<span class="comment">//输出"0"</span></span><br><span class="line">*p=<span class="number">2</span> 	<span class="comment">//把未命名的int变量设置为2</span></span><br><span class="line">fmt.Println(p)	<span class="comment">//输出"2"</span></span><br></pre></td></tr></table></figure>
+
+<p><code>new(T)</code>只是语法上的便利，不需要直接创建变量就能创建一个指针，在表达式中使用。</p>
+<p>每一次调用new返回一个具有唯一地址的不同变量：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">p:=<span class="built_in">new</span>(<span class="keyword">int</span>)</span><br><span class="line">q:=<span class="built_in">new</span>(<span class="keyword">int</span>)</span><br><span class="line">fmt.Println(p==q)<span class="comment">//输出false</span></span><br></pre></td></tr></table></figure>
+
+<p>这个规则有一个例外：两个变量的类型不携带任何信息且是零值，例如<code>struct{}</code>或<code>[0]int</code>,当前的实现里面，它们有相同的地址。</p>
+<h3 id="1-3-4、变量的生命周期"><a href="#1-3-4、变量的生命周期" class="headerlink" title="1.3.4、变量的生命周期"></a>1.3.4、变量的生命周期</h3><p>生命周期指在程序执行过程中变量存在的时间段。包级别变量的生命周期是整个程序的执行时间。相反，局部变量有一个动态的生命周期：每次执行声明语句时创建一个新的实体，变量一直生存到它变得不可访问，这是它占用的存储空间被回收。函数的参数和返回值也是局部变量，它们在其闭包函数被调用的时候创建。</p>
+<p>下面的两个代码中，global是一个全局变量，x是一个局部变量，但在f函数返回以后，还可以从global变量访问x，尽管x被声明为局部变量。这种情况我们说x这个局部变量从f函数中逃逸。相反当g函数返回时，变量*y变得不可访问，可回收。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//x从f函数中逃逸</span></span><br><span class="line"><span class="keyword">var</span> global *<span class="keyword">int</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">f</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="keyword">var</span> x <span class="keyword">int</span></span><br><span class="line">  x = <span class="number">1</span></span><br><span class="line">  global = &amp;x</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//*y没有从g函数中逃逸</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">g</span><span class="params">()</span></span>&#123;</span><br><span class="line">  y:=<span class="built_in">new</span>(<span class="keyword">int</span>)</span><br><span class="line">  *y=<span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-4、赋值"><a href="#1-4、赋值" class="headerlink" title="1.4、赋值"></a>1.4、赋值</h2><p>赋值语句用来更新变量的值，他最简单的形式由赋值符<code>=</code>，以及符号左边的变量和右边的表达式组成。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">x=<span class="number">1</span> <span class="comment">//有名称的变量</span></span><br><span class="line">*p=<span class="literal">true</span> <span class="comment">//间接变量</span></span><br><span class="line">person.name=<span class="string">"bob"</span> <span class="comment">//结构体成员</span></span><br><span class="line">count[x]=count[x]*scale <span class="comment">//数组或slice或map元素</span></span><br></pre></td></tr></table></figure>
+
+<p>每一个算术和二进制位操作符有一个对应的赋值操作符，例如，最后的语句可以重写为：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">count[x]*=scale</span><br></pre></td></tr></table></figure>
+
+<p>它避免了在表达式中变量的重复。</p>
+<p>数字变量也可以通过++和–语句本身进行递增或递减：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">v:=<span class="number">1</span></span><br><span class="line">v++	<span class="comment">//等同于 v=v+1</span></span><br><span class="line">v-- <span class="comment">//等同于 v=v-1</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-4-1、多重赋值"><a href="#1-4-1、多重赋值" class="headerlink" title="1.4.1、多重赋值"></a>1.4.1、多重赋值</h3><p>例如：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">i,j,k:=<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span></span><br><span class="line">f,err:=os.Open(<span class="string">"foo.txt"</span>) <span class="comment">//函数调用返回两个值</span></span><br><span class="line">v,ok:=mapName[key] <span class="comment">//map查询</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-4-2、可赋值性"><a href="#1-4-2、可赋值性" class="headerlink" title="1.4.2、可赋值性"></a>1.4.2、可赋值性</h3><p>上面讲的大多是显式赋值，但是程序中有很多的赋值是隐式的：一个函数调用隐式地将参数的值赋给对应参数的变量；一个return操作数赋值给结果变量。复合类型的字面量表达式，例如slice：</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">medals:=[]<span class="keyword">string</span>&#123;<span class="string">"gold"</span>,<span class="string">"silver"</span>,<span class="string">"bronze"</span>&#125; <span class="comment">//隐式赋值</span></span><br><span class="line"><span class="comment">//等价于 显式可以这样写</span></span><br><span class="line">medals[<span class="number">0</span>]=<span class="string">"gold"</span></span><br><span class="line">medals[<span class="number">1</span>]=<span class="string">"silver"</span></span><br><span class="line">medals[<span class="number">2</span>]=<span class="string">"bronze"</span></span><br></pre></td></tr></table></figure>
+
+<p>不管是显式的还是隐式地赋值，如果左边的（变量）和右边的（值）类型相同，它就是合法的。通俗的说，赋值只有在值对于变量类型是可复制的时才合法。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Aries Hui 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Aries Hui 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Go/" rel="tag"># Go</a>
+          
+            <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/01/18/basic_data/" rel="prev" title="第二章基本数据">
+                第二章基本数据 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpeg"
+                alt="Aries Hui" />
+            
+              <p class="site-author-name" itemprop="name">Aries Hui</p>
+              <p class="site-description motion-element" itemprop="description">Go语言学习笔记</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Arieshui" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:1752059337@qq.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#程序结构"><span class="nav-number">1.</span> <span class="nav-text">程序结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1、名称"><span class="nav-number">1.1.</span> <span class="nav-text">1.1、名称</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2、声明"><span class="nav-number">1.2.</span> <span class="nav-text">1.2、声明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3、变量"><span class="nav-number">1.3.</span> <span class="nav-text">1.3、变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-1、短变量声明"><span class="nav-number">1.3.1.</span> <span class="nav-text">1.3.1、短变量声明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-2、指针"><span class="nav-number">1.3.2.</span> <span class="nav-text">1.3.2、指针</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-3、new函数"><span class="nav-number">1.3.3.</span> <span class="nav-text">1.3.3、new函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-4、变量的生命周期"><span class="nav-number">1.3.4.</span> <span class="nav-text">1.3.4、变量的生命周期</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-4、赋值"><span class="nav-number">1.4.</span> <span class="nav-text">1.4、赋值</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-1、多重赋值"><span class="nav-number">1.4.1.</span> <span class="nav-text">1.4.1、多重赋值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-2、可赋值性"><span class="nav-number">1.4.2.</span> <span class="nav-text">1.4.2、可赋值性</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Aries Hui</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
